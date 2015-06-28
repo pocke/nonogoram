@@ -3,7 +3,7 @@ package main
 //TODO
 func (b *Board) Solve() {
 	expr := b.toExpr()
-	expr.Tseitin()
+	Tseitin(expr)
 	// tseitined := expr.Tseitin()
 	// solve
 }

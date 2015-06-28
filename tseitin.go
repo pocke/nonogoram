@@ -7,26 +7,31 @@ type Var struct {
 	Literal string
 }
 
-// dummy
-func (_ *EmptyExpr) Tseitin() ([][]Var, string) { panic("") }
+func Tseitin(e Expr) [][]Var {
+	res, v := e.tseitin()
+	return append(res, []Var{{Sign: true, Literal: v}})
+}
 
-func (e *Literal) Tseitin() ([][]Var, string) {
+// dummy
+func (_ *EmptyExpr) tseitin() ([][]Var, string) { panic("") }
+
+func (e *Literal) tseitin() ([][]Var, string) {
 	return [][]Var{}, e.Literal
 }
 
-func (e *NotExpr) Tseitin() ([][]Var, string) {
+func (e *NotExpr) tseitin() ([][]Var, string) {
 	x := rengbang()
-	res, y := e.Right.Tseitin()
+	res, y := e.Right.tseitin()
 	return append(res,
 		[]Var{{Sign: false, Literal: x}, {Sign: false, Literal: y}},
 		[]Var{{Sign: true, Literal: x}, {Sign: true, Literal: y}},
 	), x
 }
 
-func (e *BinExpr) Tseitin() ([][]Var, string) {
+func (e *BinExpr) tseitin() ([][]Var, string) {
 	x := rengbang()
-	resR, y := e.Right.Tseitin()
-	resL, z := e.Left.Tseitin()
+	resR, y := e.Right.tseitin()
+	resL, z := e.Left.tseitin()
 	res := append(resR, resL...)
 
 	switch e.Op {

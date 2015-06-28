@@ -2,7 +2,7 @@ package main
 
 type Expr interface {
 	And(Expr) Expr
-	Tseitin() ([][]Var, string)
+	tseitin() ([][]Var, string)
 }
 
 type BinExpr struct {
